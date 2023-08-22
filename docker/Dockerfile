@@ -39,3 +39,10 @@ RUN conda clean -ya
 
 RUN conda update -n base -c defaults conda
 RUN conda create --name detic python=3.10 -y
+
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nodejs \
+    npm \
+    && rm -rf /var/lib/apt/lists/*
+USER user
