@@ -20,7 +20,6 @@ RUN apt-get update && apt-get install -y libgl1 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /code
-ENV PATH /code/miniconda/bin:${PATH}
 
 # Create a non-root user and switch to it
 RUN adduser --disabled-password --gecos '' --shell /bin/bash user \
@@ -32,16 +31,9 @@ USER user
 ENV HOME=/home/user
 RUN chmod 777 /home/user
 
-# Dependencies: conda
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py311_23.5.2-0-Linux-x86_64.sh -O ~/miniconda.sh --no-check-certificate && /bin/bash ~/miniconda.sh -b -p /code/miniconda
-RUN rm ~/miniconda.sh
-RUN conda clean -ya
-
-RUN conda update -n base -c defaults conda
-RUN conda create --name detic python=3.10 -y
-
 USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    vim \
     nodejs \
     npm \
     && rm -rf /var/lib/apt/lists/*
