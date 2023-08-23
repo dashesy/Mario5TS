@@ -1,11 +1,19 @@
 ﻿import { Keys } from './types';
 
 function keydownHandler(ev: KeyboardEvent) {
-  return keys.handler(ev, true);
+  if (keys.handler(ev.key, true) == true) {
+    return true
+  }
+  ev.preventDefault();
+  return false
 }
 
 function keyupHandler(ev: KeyboardEvent) {
-  return keys.handler(ev, false);
+  if (keys.handler(ev.key, false) == true) {
+    return true
+  }
+  ev.preventDefault();
+  return false
 }
 
 export const keys: Keys = {
@@ -24,30 +32,28 @@ export const keys: Keys = {
     document.removeEventListener('keydown', keydownHandler);
     document.removeEventListener('keyup', keyupHandler);
   },
-  handler(ev: KeyboardEvent, status: boolean) {
-    switch (ev.keyCode) {
-      case 57392: //CTRL on MAC
-      case 17: //CTRL
-      case 65: //A
+  handler(key: string, status: boolean) {
+    switch (key) {
+      case 'Control': //CTRL on MAC
+      case 'A': //A
         keys.accelerate = status;
         break;
-      case 40: //DOWN ARROW
+      case 'ArrowDown': //DOWN ARROW
         keys.down = status;
         break;
-      case 39: //RIGHT ARROW
+      case 'ArrowRight': //RIGHT ARROW
         keys.right = status;
         break;
-      case 37: //LEFT ARROW
+      case 'ArrowLeft': //LEFT ARROW
         keys.left = status;
         break;
-      case 38: //UP ARROW
+      case 'ArrowUp': //UP ARROW
         keys.up = status;
         break;
       default:
         return true;
     }
 
-    ev.preventDefault();
     return false;
   },
   accelerate: false,

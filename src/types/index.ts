@@ -77,7 +77,7 @@ export interface Keys {
 	bind(): void;
 	reset(): void;
 	unbind(): void;
-	handler(event: KeyboardEvent, status: boolean): void;
+	handler(key: string, status: boolean): boolean;
 	accelerate: boolean;
 	left: boolean;
 	up: boolean;
